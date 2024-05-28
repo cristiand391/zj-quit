@@ -1,0 +1,39 @@
+name: release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-wasi
+
+      - name: Conventional Changelog Action
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@d360fad3a42feca6462f72c97c165d60a02d4bf2
+        # overriding some of the basic behaviors to just get the changelog
+        with:
+          tag-prefix: ''
+          output-file: CHANGELOG.md
+          version-file: 'Cargo.toml'
+          version-path: 'package.version'
+          pre-commit: ./scripts/check.js  # runs `cargo check` after version bump to update the lockfile.
+
+      - name: Build release binary
+        run: cargo build --release
+
+      - name: Create Github Release
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create ${{ steps.changelog.outputs.tag }} \
+            --notes "${{ steps.changelog.outputs.clean_changelog }}" \
+            "./target/wasm32-wasi/release/zj-quit.wasm"
