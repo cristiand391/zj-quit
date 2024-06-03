@@ -40,7 +40,7 @@ impl ZellijPlugin for State {
             None,
         );
 
-        let help_text = "Help: <ENTER> - Confirm, <ESC> - Hide";
+        let help_text = "Help: <ENTER> - Confirm, <ESC> - Cancel";
         let help_text_y_location = rows - 1;
         let help_text_x_location = cols.saturating_sub(help_text.chars().count()) / 2;
 
