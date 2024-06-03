@@ -1,6 +1,6 @@
 [package]
 name = "zj-quit"
-version = "0.2.1"
+version = "0.2.2"
 authors = ["Cristian Dominguez"]
 edition = "2018"
 

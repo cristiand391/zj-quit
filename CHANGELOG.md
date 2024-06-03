@@ -1,3 +1,12 @@
+## [0.2.2](https://github.com/cristiand391/zj-quit/compare/0.2.1...0.2.2) (2024-06-03)
+
+
+### Bug Fixes
+
+* **ui:** Esc -> Cancel ([256fa7e](https://github.com/cristiand391/zj-quit/commit/256fa7ea9e98e4420a360c42b93353af47ec47b1))
+
+
+
 ## [0.2.1](https://github.com/cristiand391/zj-quit/compare/0.2.0...0.2.1) (2024-06-02)
 
 
