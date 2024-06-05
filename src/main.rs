@@ -2,23 +2,41 @@ use zellij_tile::prelude::*;
 
 use std::collections::BTreeMap;
 
-#[derive(Default)]
-struct State {}
+struct State {
+    confirm_key: Key,
+    abort_key: Key,
+}
+
+impl Default for State {
+    fn default() -> Self {
+        Self {
+            confirm_key: Key::Char('\n'),
+            abort_key: Key::Esc,
+        }
+    }
+}
 
 register_plugin!(State);
 
 impl ZellijPlugin for State {
-    fn load(&mut self, _configuration: BTreeMap<String, String>) {
+    fn load(&mut self, configuration: BTreeMap<String, String>) {
         request_permission(&[PermissionType::ChangeApplicationState]);
         subscribe(&[EventType::Key]);
+
+        if let Some(confirm_key) = configuration.get("confirm_key") {
+            self.confirm_key = confirm_key.parse().unwrap_or(self.confirm_key);
+        }
+        if let Some(abort_key) = configuration.get("abort_key") {
+            self.abort_key = abort_key.parse().unwrap_or(self.abort_key);
+        }
     }
 
     fn update(&mut self, event: Event) -> bool {
         match event {
             Event::Key(key) => {
-                if let Key::Char('\n') = key {
+                if self.confirm_key == key {
                     quit_zellij()
-                } else if let Key::Esc = key {
+                } else if self.abort_key == key {
                     hide_self();
                 }
             }
