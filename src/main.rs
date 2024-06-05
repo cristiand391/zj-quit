@@ -58,18 +58,35 @@ impl ZellijPlugin for State {
             None,
         );
 
-        let help_text = "Help: <ENTER> - Confirm, <ESC> - Cancel";
+        let help_text = format!(
+            "Help: <{}> - Confirm, <{}> - Cancel",
+            key_name(self.confirm_key),
+            key_name(self.abort_key),
+        );
         let help_text_y_location = rows - 1;
         let help_text_x_location = cols.saturating_sub(help_text.chars().count()) / 2;
 
+        let confirm_key_length = key_name(self.confirm_key).chars().count();
+        let abort_key_length = key_name(self.abort_key).chars().count();
+
         print_text_with_coordinates(
             Text::new(help_text)
-                .color_range(3, 6..13)
-                .color_range(3, 25..30),
+                .color_range(3, 6..8 + confirm_key_length)
+                .color_range(
+                    3,
+                    20 + confirm_key_length..22 + confirm_key_length + abort_key_length,
+                ),
             help_text_x_location,
             help_text_y_location,
             None,
             None,
         );
+    }
+}
+
+fn key_name(key: Key) -> String {
+    match key {
+        Key::Char('\n') => "Enter".to_owned(),
+        _ => key.to_string(),
     }
 }
