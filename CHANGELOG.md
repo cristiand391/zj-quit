@@ -1,3 +1,12 @@
+# [0.3.0](https://github.com/cristiand391/zj-quit/compare/0.2.2...0.3.0) (2024-06-06)
+
+
+### Features
+
+* configurable keybindings ([#2](https://github.com/cristiand391/zj-quit/issues/2)) ([4e47631](https://github.com/cristiand391/zj-quit/commit/4e476317eb95e04e4f22f2352dd098f3acbf9022))
+
+
+
 ## [0.2.2](https://github.com/cristiand391/zj-quit/compare/0.2.1...0.2.2) (2024-06-03)
 
 
