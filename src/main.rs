@@ -4,14 +4,14 @@ use std::collections::BTreeMap;
 
 struct State {
     confirm_key: Key,
-    abort_key: Key,
+    cancel_key: Key,
 }
 
 impl Default for State {
     fn default() -> Self {
         Self {
             confirm_key: Key::Char('\n'),
-            abort_key: Key::Esc,
+            cancel_key: Key::Esc,
         }
     }
 }
@@ -26,8 +26,8 @@ impl ZellijPlugin for State {
         if let Some(confirm_key) = configuration.get("confirm_key") {
             self.confirm_key = confirm_key.parse().unwrap_or(self.confirm_key);
         }
-        if let Some(abort_key) = configuration.get("abort_key") {
-            self.abort_key = abort_key.parse().unwrap_or(self.abort_key);
+        if let Some(abort_key) = configuration.get("cancel_key") {
+            self.cancel_key = abort_key.parse().unwrap_or(self.cancel_key);
         }
     }
 
@@ -36,7 +36,7 @@ impl ZellijPlugin for State {
             Event::Key(key) => {
                 if self.confirm_key == key {
                     quit_zellij()
-                } else if self.abort_key == key {
+                } else if self.cancel_key == key {
                     hide_self();
                 }
             }
@@ -61,13 +61,13 @@ impl ZellijPlugin for State {
         let help_text = format!(
             "Help: <{}> - Confirm, <{}> - Cancel",
             key_name(self.confirm_key),
-            key_name(self.abort_key),
+            key_name(self.cancel_key),
         );
         let help_text_y_location = rows - 1;
         let help_text_x_location = cols.saturating_sub(help_text.chars().count()) / 2;
 
         let confirm_key_length = key_name(self.confirm_key).chars().count();
-        let abort_key_length = key_name(self.abort_key).chars().count();
+        let abort_key_length = key_name(self.cancel_key).chars().count();
 
         print_text_with_coordinates(
             Text::new(help_text)
