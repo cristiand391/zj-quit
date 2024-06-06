@@ -22,7 +22,20 @@ plugins {
 
 https://zellij.dev/documentation/plugin-aliases
 
-then set a keybind to launch it in a floating window:
+You can also configure the keybindings within the plugin:
+
+```kdl
+plugins {
+  zj-quit location="file:/path/to/zj-quit.wasm" {
+    confirm_key "q"
+    cancel_key "Esc"
+  }
+}
+```
+
+Keys are referenced from: [zellij doc](https://docs.rs/zellij-tile/latest/zellij_tile/prelude/enum.Key.html)
+
+Then set a keybind to launch it in a floating window:
 
 ```kdl
 keybinds clear-defaults=true {
