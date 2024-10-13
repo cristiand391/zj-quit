@@ -5,4 +5,7 @@ authors = ["Cristian Dominguez"]
 edition = "2018"
 
 [dependencies]
-zellij-tile = "0.40.0"
+zellij-tile = "0.41.0"
+
+[patch.crates-io]
+zellij-tile = { git = "https://github.com/zellij-org/zellij", package = "zellij-tile" }

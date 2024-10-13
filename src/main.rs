@@ -3,15 +3,15 @@ use zellij_tile::prelude::*;
 use std::collections::BTreeMap;
 
 struct State {
-    confirm_key: Key,
-    cancel_key: Key,
+    confirm_key: KeyWithModifier,
+    cancel_key: KeyWithModifier,
 }
 
 impl Default for State {
     fn default() -> Self {
         Self {
-            confirm_key: Key::Char('\n'),
-            cancel_key: Key::Esc,
+            confirm_key: KeyWithModifier::new(BareKey::Enter),
+            cancel_key: KeyWithModifier::new(BareKey::Esc),
         }
     }
 }
@@ -24,10 +24,10 @@ impl ZellijPlugin for State {
         subscribe(&[EventType::Key]);
 
         if let Some(confirm_key) = configuration.get("confirm_key") {
-            self.confirm_key = confirm_key.parse().unwrap_or(self.confirm_key);
+            self.confirm_key = confirm_key.parse().unwrap_or(self.confirm_key.clone());
         }
         if let Some(abort_key) = configuration.get("cancel_key") {
-            self.cancel_key = abort_key.parse().unwrap_or(self.cancel_key);
+            self.cancel_key = abort_key.parse().unwrap_or(self.cancel_key.clone());
         }
     }
 
@@ -60,14 +60,14 @@ impl ZellijPlugin for State {
 
         let help_text = format!(
             "Help: <{}> - Confirm, <{}> - Cancel",
-            key_name(self.confirm_key),
-            key_name(self.cancel_key),
+            self.confirm_key,
+            self.cancel_key,
         );
         let help_text_y_location = rows - 1;
         let help_text_x_location = cols.saturating_sub(help_text.chars().count()) / 2;
 
-        let confirm_key_length = key_name(self.confirm_key).chars().count();
-        let abort_key_length = key_name(self.cancel_key).chars().count();
+        let confirm_key_length = self.confirm_key.to_string().chars().count();
+        let abort_key_length = self.cancel_key.to_string().chars().count();
 
         print_text_with_coordinates(
             Text::new(help_text)
@@ -81,12 +81,5 @@ impl ZellijPlugin for State {
             None,
             None,
         );
-    }
-}
-
-fn key_name(key: Key) -> String {
-    match key {
-        Key::Char('\n') => "Enter".to_owned(),
-        _ => key.to_string(),
     }
 }
