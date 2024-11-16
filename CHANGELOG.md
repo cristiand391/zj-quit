@@ -1,3 +1,12 @@
+## [0.3.1](https://github.com/cristiand391/zj-quit/compare/0.3.0...0.3.1) (2024-11-16)
+
+
+### Bug Fixes
+
+* keybindings for zellij 0.41.x ([#3](https://github.com/cristiand391/zj-quit/issues/3)) ([6d17593](https://github.com/cristiand391/zj-quit/commit/6d1759360c7f62fce3d5ce4a25c670fda937a4e2))
+
+
+
 # [0.3.0](https://github.com/cristiand391/zj-quit/compare/0.2.2...0.3.0) (2024-06-06)
 
 
